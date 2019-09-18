@@ -51,7 +51,7 @@ spec:
               name: alidns-credentials
             regionId: "cn-beijing"
             ttl: 600
-          groupName: acme.lin07.me
+          groupName: certmanager.webhook.alidns
           solverName: alidns
 ```
 
