@@ -1,51 +1,28 @@
 # ACME webhook for alidns
-
+For details please link to 
+https://blog.csdn.net/lwlfox/article/details/100989175
 
 ## Installation
 
 ```bash
-$ helm install --name cert-manager-webhook-alidns ./deploy/webhook-alidns
-```
+$ helm install --name cert-manager-webhook-alidns --namespace=cert-manager ./deploy/webhook-alidns
+or 
+$ hell install --name cert-manager-webhook-alidns --namespace=cert-manager --set image.repository=<your repo>/cert-manager-webhook-alidns \
+--set image.tag=latest ./deploy/webhook-alidns
 
+```
+## Build  docker image
+```bash
+$ docker build -t <your repo>/cert-manager-webhook-alidns . 
+#For users in china, you have to use vpn as some resources have been blocked in china 
+#docker host should has 2G memory minimum
+```
 ## Issuer
 
 secret
 
 ```bash
 $ kubectl -n cert-manager create secret generic alidns-credentials --from-literal=accessKeySecret='your alidns accesskeySecret'
-```
-
-RBAC
-
-```yaml
-apiVersion: rbac.authorization.k8s.io/v1beta1
-kind: ClusterRole
-metadata:
-  name: cert-manager-webhook-alidns:secret-reader
-rules:
-  - apiGroups:
-      - ''
-    resources:
-      - 'secrets'
-    resourceNames:
-      - 'alidns-credentials'
-    verbs:
-      - 'get'
-      - 'watch'
----
-apiVersion: rbac.authorization.k8s.io/v1beta1
-kind: ClusterRoleBinding
-metadata:
-  name: cert-manager-webhook-alidns:secret-reader
-roleRef:
-  apiGroup: rbac.authorization.k8s.io
-  kind: ClusterRole
-  name: cert-manager-webhook-alidns:secret-reader
-subjects:
-  - apiGroup: ""
-    kind: ServiceAccount
-    name: cert-manager-webhook-alidns
-    namespace: default
 ```
 
 ClusterIssuer
@@ -76,23 +53,6 @@ spec:
             ttl: 600
           groupName: acme.lin07.me
           solverName: alidns
-```
-
-Certificate
-
-```yaml
-apiVersion: certmanager.k8s.io/v1alpha1
-kind: Certificate
-metadata:
-  name: wildcard-example-cn
-spec:
-  secretName: wildcard-example-cn-tls
-  renewBefore: 240h
-  dnsNames:
-  - '*.example.cn'
-  issuerRef:
-    name: letsencrypt-prod
-    kind: ClusterIssuer
 ```
 
 Ingress
