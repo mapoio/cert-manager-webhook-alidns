@@ -5,17 +5,17 @@ metadata:
 spec:
   acme:
     server: https://acme-v02.api.letsencrypt.org/directory
-    email: liuwenlongfox@163.com
+    email: youremail@163.com
     privateKeySecretRef:
       name: letsencrypt-prod
     solvers:
     - selector: 
         dnsNames:
-        - '*.dadingsoft.com'
+        - '*.yourdomain.com'
       dns01:
         webhook:
           config:
-            accessKeyId: LTAIgOKEtf9vJrkR
+            accessKeyId: yourAKID
             accessKeySecretRef:
               key: accessKeySecret
               name: alidns-credentials

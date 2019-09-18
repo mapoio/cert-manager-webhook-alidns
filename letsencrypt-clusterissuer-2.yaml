@@ -1,24 +1,24 @@
 apiVersion: certmanager.k8s.io/v1alpha1
 kind: ClusterIssuer
 metadata:
-  name: letsencrypt-prod-techlover-cn
+  name: letsencrypt-prod-2
 spec:
   acme:
     server: https://acme-v02.api.letsencrypt.org/directory
-    email: liuwenlongfox@163.com
+    email: youremail@163.com
     privateKeySecretRef:
-      name: letsencrypt-prod-techlover-cn
+      name: letsencrypt-prod-2
     solvers:
     - selector: 
         dnsNames:
-        - '*.techlover.cn'
+        - '*.yourdomain2.com'
       dns01:
         webhook:
           config:
-            accessKeyId: LTAIIhN07wafdVmq
+            accessKeyId: yourAKID
             accessKeySecretRef:
               key: accessKeySecret
-              name: alidns-credentials-techlover-cn
+              name: alidns-credentials-2
             regionId: "cn-shenzhen"
             ttl: 600
           groupName: certmanager.webhook.alidns

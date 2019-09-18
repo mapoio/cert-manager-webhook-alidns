@@ -20,7 +20,7 @@ rules:
     resources:
       - 'secrets'
     resourceNames:
-      - ''
+      - 'alidns-credentials'
     verbs:
       - 'get'
       - 'watch'
